@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import {
   TextField,
@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
-import mock from "./mock.json";
-import { Student } from "./types";
+import api from "src/services";
+import { Attribute, Student, Tabs } from "src/types";
 
 type EditStudentModalProps = {
   objToEdit: Student | null;
@@ -35,11 +35,17 @@ function EditStudentModal({
 }: EditStudentModalProps) {
   const [obj, setObj] = useState<Partial<Student>>(objToEdit || {});
   const handleClose = () => setOpen(false);
-  const attributeOptions = mock.attributes;
+  const [attributeOptions, setAttributeOptions] = useState<Attribute[]>([]);
 
   useEffect(() => {
     setObj(objToEdit || {});
   }, [objToEdit]);
+
+  useEffect(() => {
+    api[Tabs.ATTRIBUTES]
+      .fetchAll()
+      .then((result) => setAttributeOptions(result.data));
+  }, []);
 
   return (
     <div>
@@ -71,17 +77,19 @@ function EditStudentModal({
                 labelId="multiple-chip-label"
                 id="multiple-chip"
                 multiple
-                value={obj?.attributes || []}
+                value={obj?.attributes?.map((a) => a.name) || []}
                 onChange={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
                   const {
-                    target: { value },
+                    target: { value: names },
                   } = event;
+
                   setObj((o) => ({
                     ...o,
-                    attributes:
-                      typeof value === "string"
-                        ? value.split(",")
-                        : value || [],
+                    attributes: attributeOptions.filter((a) =>
+                      names.includes(a.name)
+                    ),
                   }));
                 }}
                 input={

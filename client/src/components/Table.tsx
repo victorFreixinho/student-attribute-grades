@@ -1,7 +1,5 @@
-import React from "react";
-
 import {
-  Table,
+  Table as MuiTable,
   TableBody,
   TableCell,
   TableContainer,
@@ -13,20 +11,20 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 
-import { Student, Attribute } from "./types";
+import { Student, Attribute } from "src/types";
 
-type MyTableProps = {
+type TableProps = {
   data: Student[] | Attribute[];
   columns: string[];
   onEdit: (obj: Student | Attribute) => void;
   onDelete: (obj: Student | Attribute) => void;
 };
 
-function MyTable({ data, columns, onEdit, onDelete }: MyTableProps) {
+function Table({ data, columns, onEdit, onDelete }: TableProps) {
   return (
     <TableContainer component={Paper}>
       {data?.length ? (
-        <Table sx={{ minWidth: 650 }} aria-label="my generic table">
+        <MuiTable sx={{ minWidth: 650 }} aria-label="my generic table">
           <TableHead>
             <TableRow>
               {columns.map((c) => (
@@ -59,12 +57,12 @@ function MyTable({ data, columns, onEdit, onDelete }: MyTableProps) {
               </TableRow>
             ))}
           </TableBody>
-        </Table>
+        </MuiTable>
       ) : (
-        <InputLabel> Empty data </InputLabel>
+        <InputLabel sx={{ textAlign: "center" }}>Empty data</InputLabel>
       )}
     </TableContainer>
   );
 }
 
-export default MyTable;
+export default Table;

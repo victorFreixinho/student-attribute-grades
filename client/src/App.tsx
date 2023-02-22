@@ -1,25 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-import MyAppBar from "./MyAppBar";
-import MyAppTab from "./MyAppTab";
-import EditAttributeModal from "./EditAttributeModal";
-import EditStudentModal from "./EditStudentModal";
+import AppBar from "src/components/AppBar";
+import AppTab from "src/components/AppTab";
+import { EditAttributeModal, EditStudentModal } from "src/components/modals";
+import { Tabs } from "./types";
 
 function App() {
-  const tabs = ["students", "attributes"];
   const columnsByTab: Record<string, string[]> = {
     students: ["id", "name", "age"],
     attributes: ["id", "name"],
   };
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+  const [selectedTab, setSelectedTab] = useState(Tabs.STUDENTS);
   return (
     <>
-      <MyAppBar
-        tabs={tabs}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-      />
-      <MyAppTab
+      <AppBar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <AppTab
         tab={selectedTab}
         tableColumns={columnsByTab[selectedTab]}
         EditModal={

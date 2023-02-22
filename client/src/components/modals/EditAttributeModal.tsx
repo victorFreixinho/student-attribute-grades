@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button, Stack, Box, Modal } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
-import { Attribute } from "./types";
+import { Attribute } from "src/types";
 
 type EditAttributeModalProps = {
   objToEdit: Attribute | null;

@@ -1,11 +1,16 @@
 export type Attribute = {
-  id: string;
+  id: number;
   name: string;
 };
 
 export type Student = {
-  id: string;
+  id: number;
   name: string;
-  age: string;
-  attributes: string[]; // array of attribute names
+  age: number;
+  attributes: Attribute[];
 };
+
+export enum Tabs {
+  STUDENTS = "students",
+  ATTRIBUTES = "attributes",
+}

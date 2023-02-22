@@ -3,19 +3,20 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import mock from "./mock.json";
-import MyTable from "./MyTable";
-import { Student, Attribute } from "./types";
+import api from "src/services";
+import Table from "./Table";
+import { Student, Attribute } from "../types";
+import { Tabs } from "src/types";
 
-type MyAppTabProps = {
-  tab: string;
+type AppTabProps = {
+  tab: Tabs;
   tableColumns: string[];
   EditModal: (props: any) => React.ReactElement;
 };
 
-type Data = Student | Attribute;
+type Data = Attribute | Student;
 
-function MyAppTab({ tab, tableColumns, EditModal }: MyAppTabProps) {
+function AppTab({ tab, tableColumns, EditModal }: AppTabProps) {
   const [data, setData] = useState<Data[]>([]);
 
   const [action, setAction] = useState<string | null>(null);
@@ -31,43 +32,44 @@ function MyAppTab({ tab, tableColumns, EditModal }: MyAppTabProps) {
     setAction(null);
   };
 
-  const onEdit = (objToEdit: Data | null) => {
-    if (!objToEdit?.id) {
-      // TODO: call create obj service method
-      const id = String(
-        data?.length && data[data.length - 1].id
-          ? data[data.length - 1].id + 1
-          : 0
-      );
-      setData((state) => [
-        ...(state || []),
-        { ...(objToEdit || ({} as Data)), id },
-      ]);
-    } else if (objToEdit.id === obj?.id) {
-      // TODO: call update obj service method
-      setData((state) =>
-        state.map((d) => (d.id === objToEdit.id ? objToEdit : d))
-      );
-    }
+  const onEdit = async (objToEdit: Data) => {
+    let result;
+
+    if (objToEdit?.id)
+      result = await api[tab].update(objToEdit.id, objToEdit as any);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    else result = await api[tab].create(objToEdit as any);
+
+    // const editedObj: Data | null = result.data;
+
+    // if (result?.success && editedObj) {
+    //   setData((state) =>
+    //     objToEdit?.id
+    //       ? state.map((d) => (d.id === editedObj.id ? editedObj : d))
+    //       : [...(state || []), editedObj]
+    //   );
+    // }
+
     finishAction();
   };
 
-  const onDelete = (objToDelete: Data | null) => {
+  const onDelete = async (objToDelete: Data | null) => {
     if (objToDelete?.id) {
-      // TODO: call delete obj service method
-      setData((state) => state?.filter((d) => d.id !== objToDelete.id) || []);
+      const result = await api[tab].del(objToDelete.id);
+      if (result?.success) {
+        setData((state) => state?.filter((d) => d.id !== objToDelete.id) || []);
+      }
     }
     finishAction();
   };
 
   useEffect(() => {
-    // TODO: fetch data
-    setData((mock as any)[tab]);
+    api[tab].fetchAll().then((d) => setData(d.data));
   }, [tab]);
 
   return (
     <>
-      <MyTable
+      <Table
         data={data || []}
         columns={tableColumns}
         onEdit={(d) => startAction("edit", d)}
@@ -99,4 +101,4 @@ function MyAppTab({ tab, tableColumns, EditModal }: MyAppTabProps) {
   );
 }
 
-export default MyAppTab;
+export default AppTab;

@@ -4,13 +4,16 @@
       "id": 1,
       "name": "joão",
       "age": 18,
-      "attributes": ["camaradagem"]
+      "attributes": [{ "id": 1, "name": "camaradagem" }]
     },
     {
       "id": 2,
       "name": "pedro",
       "age": 19,
-      "attributes": ["espirito de corpo", "fibra"]
+      "attributes": [
+        { "id": 2, "name": "espirito de corpo" },
+        { "id": 3, "name": "fibra" }
+      ]
     },
     {
       "id": 3,

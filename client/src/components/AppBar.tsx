@@ -1,18 +1,16 @@
-import React from "react";
+import { AppBar as MuiAppBar, Toolbar, Button } from "@mui/material";
+import { Tabs } from "src/types";
 
-import { AppBar, Toolbar, Button } from "@mui/material";
-
-type MyAppBarProps = {
-  tabs: string[];
-  selectedTab: string;
-  setSelectedTab: (tab: string) => void;
+type AppBarProps = {
+  selectedTab: Tabs;
+  setSelectedTab: (tab: Tabs) => void;
 };
 
-function MyAppBar({ tabs, selectedTab, setSelectedTab }: MyAppBarProps) {
+function AppBar({ selectedTab, setSelectedTab }: AppBarProps) {
   return (
-    <AppBar position="static">
+    <MuiAppBar position="static">
       <Toolbar color="secondary">
-        {tabs?.map((tab) => (
+        {Object.values(Tabs)?.map((tab) => (
           <Button
             key={tab}
             color="inherit"
@@ -27,8 +25,8 @@ function MyAppBar({ tabs, selectedTab, setSelectedTab }: MyAppBarProps) {
           </Button>
         ))}
       </Toolbar>
-    </AppBar>
+    </MuiAppBar>
   );
 }
 
-export default MyAppBar;
+export default AppBar;
