@@ -1,6 +1,5 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import React, { useState, useEffect } from "react";
+
 import {
   TextField,
   Button,
@@ -11,28 +10,34 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Box,
+  Modal,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import mock from "./mock.json";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+import mock from "./mock.json";
+import { Student } from "./types";
+
+type EditStudentModalProps = {
+  objToEdit: Student | null;
+  open: boolean;
+  setOpen: (o: boolean) => void;
+  onSave: (s: Partial<Student>) => void;
+  fields: string[];
 };
 
-function EditStudentModal({ objToEdit, open, setOpen, onSave, fields }) {
-  const [obj, setObj] = React.useState(objToEdit || {});
+function EditStudentModal({
+  objToEdit,
+  open,
+  setOpen,
+  onSave,
+  fields,
+}: EditStudentModalProps) {
+  const [obj, setObj] = useState<Partial<Student>>(objToEdit || {});
   const handleClose = () => setOpen(false);
   const attributeOptions = mock.attributes;
 
-  React.useEffect(() => {
+  useEffect(() => {
     setObj(objToEdit || {});
   }, [objToEdit]);
 
@@ -44,14 +49,14 @@ function EditStudentModal({ objToEdit, open, setOpen, onSave, fields }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={boxStyle}>
           <Stack spacing={2}>
             {fields?.map((field) => (
               <TextField
                 id={field}
                 label={field.toUpperCase()}
                 variant="outlined"
-                value={obj[field] || ""}
+                value={(obj as any)[field] || ""}
                 onChange={(event) =>
                   setObj((o) => ({
                     ...(o ?? {}),
@@ -111,5 +116,17 @@ function EditStudentModal({ objToEdit, open, setOpen, onSave, fields }) {
     </div>
   );
 }
+
+const boxStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default EditStudentModal;

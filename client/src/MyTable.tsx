@@ -1,15 +1,28 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { IconButton, InputLabel } from "@mui/material";
+import React from "react";
 
-function MyTable({ data, columns, onEdit, onDelete }) {
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  InputLabel,
+} from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
+
+import { Student, Attribute } from "./types";
+
+type MyTableProps = {
+  data: Student[] | Attribute[];
+  columns: string[];
+  onEdit: (obj: Student | Attribute) => void;
+  onDelete: (obj: Student | Attribute) => void;
+};
+
+function MyTable({ data, columns, onEdit, onDelete }: MyTableProps) {
   return (
     <TableContainer component={Paper}>
       {data?.length ? (
@@ -33,14 +46,14 @@ function MyTable({ data, columns, onEdit, onDelete }) {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 {columns.map((c) => (
-                  <TableCell key={c}>{d[c]}</TableCell>
+                  <TableCell key={c}>{(d as any)[c]}</TableCell>
                 ))}
                 <TableCell align="right" sx={{ width: "80px" }}>
                   <IconButton aria-label="edit" onClick={() => onEdit(d)}>
-                    <EditIcon />
+                    <Edit />
                   </IconButton>
                   <IconButton aria-label="delete" onClick={() => onDelete(d)}>
-                    <DeleteIcon />
+                    <Delete />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -48,7 +61,7 @@ function MyTable({ data, columns, onEdit, onDelete }) {
           </TableBody>
         </Table>
       ) : (
-        <InputLabel align="center"> Empty data </InputLabel>
+        <InputLabel> Empty data </InputLabel>
       )}
     </TableContainer>
   );

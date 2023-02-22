@@ -1,8 +1,14 @@
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
+import React from "react";
 
-function MyAppBar({ tabs, selectedTab, setSelectedTab }) {
+import { AppBar, Toolbar, Button } from "@mui/material";
+
+type MyAppBarProps = {
+  tabs: string[];
+  selectedTab: string;
+  setSelectedTab: (tab: string) => void;
+};
+
+function MyAppBar({ tabs, selectedTab, setSelectedTab }: MyAppBarProps) {
   return (
     <AppBar position="static">
       <Toolbar color="secondary">

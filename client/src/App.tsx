@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import MyAppBar from "./MyAppBar";
 import MyAppTab from "./MyAppTab";
@@ -7,7 +7,7 @@ import EditStudentModal from "./EditStudentModal";
 
 function App() {
   const tabs = ["students", "attributes"];
-  const columnsByTab = {
+  const columnsByTab: Record<string, string[]> = {
     students: ["id", "name", "age"],
     attributes: ["id", "name"],
   };

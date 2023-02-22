@@ -1,17 +1,28 @@
-import { useEffect, useState } from "react";
-import mock from "./mock.json";
-import MyTable from "./MyTable";
+import React, { useEffect, useState } from "react";
+
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-function MyAppTab({ tab, tableColumns, EditModal }) {
-  const [data, setData] = useState(null);
+import mock from "./mock.json";
+import MyTable from "./MyTable";
+import { Student, Attribute } from "./types";
 
-  const [action, setAction] = useState(null);
-  const [obj, setObj] = useState(null);
+type MyAppTabProps = {
+  tab: string;
+  tableColumns: string[];
+  EditModal: (props: any) => React.ReactElement;
+};
 
-  const startAction = (act, attr = null) => {
-    setObj(attr);
+type Data = Student | Attribute;
+
+function MyAppTab({ tab, tableColumns, EditModal }: MyAppTabProps) {
+  const [data, setData] = useState<Data[]>([]);
+
+  const [action, setAction] = useState<string | null>(null);
+  const [obj, setObj] = useState<Data | null>(null);
+
+  const startAction = (act: string, o: Data | null = null) => {
+    setObj(o);
     setAction(act);
   };
 
@@ -20,15 +31,19 @@ function MyAppTab({ tab, tableColumns, EditModal }) {
     setAction(null);
   };
 
-  const onEdit = (objToEdit) => {
-    if (!objToEdit.id) {
+  const onEdit = (objToEdit: Data | null) => {
+    if (!objToEdit?.id) {
       // TODO: call create obj service method
-      const id =
+      const id = String(
         data?.length && data[data.length - 1].id
           ? data[data.length - 1].id + 1
-          : 0;
-      setData((state) => [...(state || []), { ...(objToEdit || {}), id }]);
-    } else if (objToEdit.id === obj.id) {
+          : 0
+      );
+      setData((state) => [
+        ...(state || []),
+        { ...(objToEdit || ({} as Data)), id },
+      ]);
+    } else if (objToEdit.id === obj?.id) {
       // TODO: call update obj service method
       setData((state) =>
         state.map((d) => (d.id === objToEdit.id ? objToEdit : d))
@@ -37,17 +52,17 @@ function MyAppTab({ tab, tableColumns, EditModal }) {
     finishAction();
   };
 
-  const onDelete = (objToDelete) => {
-    if (objToDelete.id) {
+  const onDelete = (objToDelete: Data | null) => {
+    if (objToDelete?.id) {
       // TODO: call delete obj service method
-      setData((state) => state.filter((d) => d.id !== objToDelete.id));
+      setData((state) => state?.filter((d) => d.id !== objToDelete.id) || []);
     }
     finishAction();
   };
 
   useEffect(() => {
     // TODO: fetch data
-    setData(mock[tab]);
+    setData((mock as any)[tab]);
   }, [tab]);
 
   return (
@@ -75,8 +90,8 @@ function MyAppTab({ tab, tableColumns, EditModal }) {
         <EditModal
           objToEdit={obj}
           onSave={onEdit}
-          open={action === "create" || (action === "edit" && obj)}
-          setOpen={(open) => !open && finishAction()}
+          open={action === "create" || (action === "edit" && !!obj)}
+          setOpen={(open: boolean) => !open && finishAction()}
           fields={tableColumns?.filter((c) => c.toLowerCase() !== "id") || []}
         />
       )}
