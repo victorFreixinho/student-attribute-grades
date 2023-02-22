@@ -1,0 +1,24 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "joão",
+      "age": 18
+    },
+    {
+      "id": 2,
+      "name": "pedro",
+      "age": 19
+    },
+    {
+      "id": 3,
+      "name": "maria",
+      "age": 20
+    }
+  ],
+  "attributes": [
+    { "id": 1, "name": "camaradagem" },
+    { "id": 2, "name": "espirito de corpo" },
+    { "id": 3, "name": "fibra" }
+  ]
+}
