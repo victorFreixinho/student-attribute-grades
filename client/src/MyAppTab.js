@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import mock from "./mock.json";
 import MyTable from "./MyTable";
-import EditModal from "./EditModal";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-function MyAppTab({ tab, tableColumns }) {
+function MyAppTab({ tab, tableColumns, EditModal }) {
   const [data, setData] = useState(null);
 
   const [action, setAction] = useState(null);

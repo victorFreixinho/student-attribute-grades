@@ -3,17 +3,20 @@
     {
       "id": 1,
       "name": "joão",
-      "age": 18
+      "age": 18,
+      "attributes": ["camaradagem"]
     },
     {
       "id": 2,
       "name": "pedro",
-      "age": 19
+      "age": 19,
+      "attributes": ["espirito de corpo", "fibra"]
     },
     {
       "id": 3,
       "name": "maria",
-      "age": 20
+      "age": 20,
+      "attributes": []
     }
   ],
   "attributes": [

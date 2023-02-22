@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-function EditModal({ objToEdit, open, setOpen, onSave, fields }) {
+function EditAttributeModal({ objToEdit, open, setOpen, onSave, fields }) {
   const [obj, setObj] = React.useState(objToEdit || {});
   const handleClose = () => setOpen(false);
 
@@ -63,4 +63,4 @@ function EditModal({ objToEdit, open, setOpen, onSave, fields }) {
   );
 }
 
-export default EditModal;
+export default EditAttributeModal;

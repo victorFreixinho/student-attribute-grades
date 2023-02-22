@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import MyAppBar from "./MyAppBar";
 import MyAppTab from "./MyAppTab";
+import EditAttributeModal from "./EditAttributeModal";
+import EditStudentModal from "./EditStudentModal";
 
 function App() {
   const tabs = ["students", "attributes"];
@@ -17,7 +19,13 @@ function App() {
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
       />
-      <MyAppTab tab={selectedTab} tableColumns={columnsByTab[selectedTab]} />
+      <MyAppTab
+        tab={selectedTab}
+        tableColumns={columnsByTab[selectedTab]}
+        EditModal={
+          selectedTab === "students" ? EditStudentModal : EditAttributeModal
+        }
+      />
     </>
   );
 }
