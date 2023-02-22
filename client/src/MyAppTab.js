@@ -21,7 +21,6 @@ function MyAppTab({ tab, tableColumns, EditModal }) {
   };
 
   const onEdit = (objToEdit) => {
-    console.log("objToEdit ", objToEdit);
     if (!objToEdit.id) {
       // TODO: call create obj service method
       const id =
@@ -50,10 +49,6 @@ function MyAppTab({ tab, tableColumns, EditModal }) {
     // TODO: fetch data
     setData(mock[tab]);
   }, [tab]);
-
-  useEffect(() => {
-    console.log("new data: ", data);
-  }, [data]);
 
   return (
     <>
